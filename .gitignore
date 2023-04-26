@@ -1,0 +1,6 @@
+/Debug/
+/.settings/
+
+__pycache__/
+*.py[cod]
+

@@ -1,7 +1,6 @@
 #ifndef MD5_h
 #define MD5_h
 
-#include "Arduino.h"
 
 /*
  * This is an OpenSSL-compatible implementation of the RSA Data Security,
@@ -25,28 +24,27 @@
  * <scott@macvicar.net>
  */
 
-#include <string.h>
+#include <stddef.h>
+#include <stdint.h>
 
-typedef unsigned long MD5_u32plus;
+#define MD5_HASH_LEN   16
+
+
+typedef uint32_t MD5_u32plus;
 
 typedef struct {
 	MD5_u32plus lo, hi;
 	MD5_u32plus a, b, c, d;
-	unsigned char buffer[64];
 	MD5_u32plus block[16];
+	uint8_t buffer[64];
 } MD5_CTX;
 
-class MD5
-{
-public:
-	MD5();
-	static unsigned char* make_hash(char *arg);
-	static unsigned char* make_hash(char *arg,size_t size);
-	static char* make_digest(const unsigned char *digest, int len);
- 	static const void *body(void *ctxBuf, const void *data, size_t size);
-	static void MD5Init(void *ctxBuf);
-	static void MD5Final(unsigned char *result, void *ctxBuf);
-	static void MD5Update(void *ctxBuf, const void *data, size_t size);
-};
+
+uint8_t* make_hash_str(char *arg);
+uint8_t* make_hash(char *arg, size_t size);
+char* make_digest(const uint8_t *hash, int len);
+void MD5Init(void *ctxBuf);
+void MD5Update(void *ctxBuf, const void *data, size_t size);
+void MD5Final(uint8_t *result, void *ctxBuf);
 
 #endif
